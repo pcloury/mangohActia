@@ -1,0 +1,22 @@
+executables:
+{
+    smsReceiver = ( smsClient )
+}
+
+processes:
+{
+    run:
+    {
+        ( smsReceiver )
+    }
+}
+
+start: manual
+
+bindings:
+{
+    smsReceiver.smsClient.le_sms -> modemService.le_sms
+    smsReceiver.smsClient.le_dcs -> dataConnectionService.le_dcs
+    smsReceiver.smsClient.le_net -> dataConnectionService.le_net
+    smsReceiver.smsClient.le_gnss -> positioningService.le_gnss
+}

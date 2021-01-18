@@ -1,0 +1,244 @@
+# Build script for application 'sms'
+
+# == Auto-generated file.  Do not edit. ==
+
+builddir =/home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx
+
+cFlags = -Wno-error -I /home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx -I/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/interfaces -I/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/framework/include -I/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/build/wp77xx/framework/include -I/home/cloury/myWorkspace/smsReceiver
+
+cxxFlags = -I /home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx -I/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/interfaces -I/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/framework/include -I/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/build/wp77xx/framework/include -I/home/cloury/myWorkspace/smsReceiver
+
+ldFlags =
+
+target = wp77xx
+
+ifgenFlags =  --import-dir /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/interfaces --import-dir /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/framework/include --import-dir /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/build/wp77xx/framework/include --import-dir /home/cloury/myWorkspace/smsReceiver
+
+rule CompileC
+  description = Compiling C source
+  depfile = $out.d
+  command =  /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc --sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi -MMD -MF $out.d -Wall -Werror -fvisibility=hidden  -c $in -o $out  -DLE_FILENAME=`basename $in` -DMK_TOOLS_BUILD  -DLEGATO_EMBEDDED -fPIC $cFlags
+
+rule CompileCxx
+  description = Compiling C++ source
+  depfile = $out.d
+  command =  /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-g++ --sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi -MMD -MF $out.d -Wall -Werror -fvisibility=hidden  -c $in -o $out  -DLE_FILENAME=`basename $in` -DMK_TOOLS_BUILD  -DLEGATO_EMBEDDED -fPIC $cxxFlags
+
+rule ProcessConfig
+  description = Merging config file
+  depfile = $in.d
+  command = /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-cpp -MMD -MF $in.d -MQ $out -P -I $builddir -E $in -o $out
+
+rule BuildExternal
+  description = Running external build step
+  command = cd $builddir/$workingdir && $
+            export CFLAGS="--sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi $cFlags" $
+            CXXFLAGS="--sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi $cxxFlags" $
+            LDFLAGS="--sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi $ldFlags" $
+            CPPFLAGS="--sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi $cppFlags" $
+            PATH="$${LEGATO_ROOT}/bin:/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi:/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin:/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/bin:/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/sbin:$$PATH" $
+            && $
+            $externalCommand
+
+rule GenInterfaceCode
+  description = Generating IPC interface code
+  command = ifgen --output-dir $outputDir $ifgenFlags $in
+
+rule GenPyApiCExtension
+  description = Generating Python API C Extension
+  command = cextgenerator.py $in -o $workDir > /dev/null
+rule CopyFile
+  description = Copying file
+  command = cp -d -f -T $in $out
+
+rule RegenNinjaScript
+  description = Regenerating build script
+  generator = 1
+  command = mkapp --dont-run-ninja "-t" "wp77xx" "-C" "-Wno-error" "sms.adef"
+
+rule LinkCLib
+  description = Linking C library
+  command = /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc --sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi -shared -o $out $in $ldFlags
+
+rule LinkCxxLib
+  description = Linking C++ library
+  command = /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-g++ --sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi -shared -o $out $in $ldFlags
+
+rule LinkCExe
+  description = Linking C executable
+  command = /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc --sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi -fPIE -pie -o $out $in $ldFlags
+
+rule LinkCxxExe
+  description = Linking C++ executable
+  command = /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-g++ --sysroot=/home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-yellow-wp77xx-toolchain/sysroots/armv7a-neon-poky-linux-gnueabi -fPIE -pie -o $out $in $ldFlags
+
+rule CompileJava
+  description = Compiling Java source
+  command = javac -cp $classPath -d `dirname $out` $in && touch $out
+
+rule MakeJar
+  description = Making JAR file
+  command = INDIR=`dirname $in`; find $$INDIR -name '*.class' -printf "-C $$INDIR\n%P\n"|xargs jar -cf $out
+
+rule MakeKernelModule
+  description = Build kernel driver module
+  depfile = $out.d
+  command = make -C $in
+
+rule BundleFile
+  description = Bundling file
+  command = legato-install -m $modeFlags $in $out
+
+rule MakeAppInfoProperties
+  description = Creating info.properties
+  command = rm -f $out && $
+            md5=$$( ( cd $workingDir/staging && $
+                      find -P -print0 |LC_ALL=C sort -z && $
+                      find -P -type f -print0 |LC_ALL=C sort -z |xargs -0 md5sum && $
+                      find -P -type l -print0 |LC_ALL=C sort -z |xargs -0 -r -n 1 readlink $
+                    ) | md5sum) && $
+            md5=$${md5%% *} && $
+            ( echo "app.name=$name" && $
+              echo "app.md5=$$md5" && $
+              echo "app.version=$version" && $
+              echo "legato.version=`cat $$LEGATO_ROOT/version`" $
+            ) > $out
+
+rule PackApp
+  description = Packaging app
+  command = $
+            mtime=`stat -c %Y $adefPath` && $
+            find $workingDir/staging -exec touch --no-dereference --date=@$$mtime {} \; && $
+            (cd $workingDir/staging && find . -print0 | LC_ALL=C sort -z |tar --no-recursion --null -T - -cjf - ) > $workingDir/$name.$target && $
+            tarballSize=`stat -c '%s' $workingDir/$name.$target` && $
+            md5=`grep '^app.md5=' $in | sed 's/^app.md5=//'` && $
+            ( printf '{\n' && $
+              printf '"command":"updateApp",\n' && $
+              printf '"name":"$name",\n' && $
+              printf '"version":"$version",\n' && $
+              printf '"md5":"%s",\n' "$$md5" && $
+              printf '"size":%s\n' "$$tarballSize" && $
+              printf '}' && $
+              cat $workingDir/$name.$target $
+            ) > $out
+
+rule BinPackApp
+  description = Packaging app for distribution.
+  command = cp -r $stagingDir/* $workingDir/ && $
+            rm $workingDir/info.properties $workingDir/root.cfg && $
+            mtime=`stat -c %Y $adefPath` && $
+            find $workingDir -exec touch  --no-dereference --date=@$$mtime {} \; && $
+            (cd $workingDir/ && find . -print0 |LC_ALL=C sort -z  |tar --no-recursion --null -T - -cjf - ) > $out
+
+build $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_dcs.api |
+  outputDir = $builddir/api/3673eb199bd09b527dd9a48a6a1341e6
+  ifgenFlags = --gen-common-interface $ifgenFlags
+
+build $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_dcs.api |
+  outputDir = $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client
+  ifgenFlags = --gen-interface $ifgenFlags
+
+build $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/le_mdmDefs_common.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/modemServices/le_mdmDefs.api |
+  outputDir = $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b
+  ifgenFlags = --gen-common-interface $ifgenFlags
+
+build $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client/le_mdmDefs_interface.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/modemServices/le_mdmDefs.api |
+  outputDir = $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client
+  ifgenFlags = --gen-interface $ifgenFlags
+
+build $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_commonclient.c.o: CompileC $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_commonclient.c | $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_messages.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_common.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/le_mdmDefs_common.h
+  cFlags = $cFlags -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b
+
+build $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_commonclient.c $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_common.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_messages.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/modemServices/le_sms.api | /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/modemServices/le_mdmDefs.api
+  ifgenFlags = --gen-common-client --gen-common-interface --gen-messages $ifgenFlags
+  outputDir = $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3
+
+build $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_client.c.o: CompileC $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_client.c | $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_service.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_interface.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_common.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_messages.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client/le_mdmDefs_interface.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/le_mdmDefs_common.h
+  cFlags = $cFlags -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b
+
+build $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_client.c $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_interface.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_service.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/modemServices/le_sms.api | /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/modemServices/le_mdmDefs.api
+  ifgenFlags = --gen-client --gen-interface --gen-local --name-prefix le_sms $ifgenFlags
+  outputDir = $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client
+
+build $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_commonclient.c.o: CompileC $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_commonclient.c | $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_messages.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h
+  cFlags = $cFlags
+
+build $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_commonclient.c $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_messages.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_dcs.api |
+  ifgenFlags = --gen-common-client --gen-messages $ifgenFlags
+  outputDir = $builddir/api/3673eb199bd09b527dd9a48a6a1341e6
+
+build $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_client.c.o: CompileC $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_client.c | $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_service.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_messages.h
+  cFlags = $cFlags -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6
+
+build $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_client.c $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_service.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_dcs.api |
+  ifgenFlags = --gen-client --gen-local --name-prefix le_dcs $ifgenFlags
+  outputDir = $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client
+
+build $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_commonclient.c.o: CompileC $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_commonclient.c | $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_messages.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_common.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h
+  cFlags = $cFlags -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6
+
+build $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_commonclient.c $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_common.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_messages.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_net.api | /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_dcs.api
+  ifgenFlags = --gen-common-client --gen-common-interface --gen-messages $ifgenFlags
+  outputDir = $builddir/api/4d7717b1974e5bf651633b0050c89f69
+
+build $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_client.c.o: CompileC $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_client.c | $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_service.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_interface.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_common.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_messages.h
+  cFlags = $cFlags -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69
+
+build $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_client.c $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_interface.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_service.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_net.api | /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_dcs.api
+  ifgenFlags = --gen-client --gen-interface --gen-local --name-prefix le_net $ifgenFlags
+  outputDir = $builddir/api/4d7717b1974e5bf651633b0050c89f69/client
+
+build $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_commonclient.c.o: CompileC $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_commonclient.c | $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_messages.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_common.h
+  cFlags = $cFlags
+
+build $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_commonclient.c $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_common.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_messages.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/positioning/le_gnss.api |
+  ifgenFlags = --gen-common-client --gen-common-interface --gen-messages $ifgenFlags
+  outputDir = $builddir/api/9fc9ddf69998b59a4633148303078d37
+
+build $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_client.c.o: CompileC $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_client.c | $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_service.h $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_interface.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_common.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_messages.h
+  cFlags = $cFlags -I$builddir/api/9fc9ddf69998b59a4633148303078d37
+
+build $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_client.c $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_interface.h $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_service.h: GenInterfaceCode /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/positioning/le_gnss.api |
+  ifgenFlags = --gen-client --gen-interface --gen-local --name-prefix le_gnss $ifgenFlags
+  outputDir = $builddir/api/9fc9ddf69998b59a4633148303078d37/client
+
+build /home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx/component/2748631bb9b27b686463abde52326ad2/obj/libComponent_smsClient.so: LinkCLib $builddir/component/2748631bb9b27b686463abde52326ad2/obj/ef51c70126c894eddacd6c5757772f4a.o $builddir/component/2748631bb9b27b686463abde52326ad2/obj/07f2a6ed884b45284d7d77a383eb8d3a.o $builddir/component/2748631bb9b27b686463abde52326ad2/obj/002a8625c60b979eefc64590802e7027.o $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_client.c.o $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_client.c.o $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_client.c.o $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_client.c.o $builddir/component/2748631bb9b27b686463abde52326ad2/obj/_componentMain.c.o $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_commonclient.c.o $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_commonclient.c.o $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_commonclient.c.o $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_commonclient.c.o | /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/build/wp77xx/framework/lib/liblegato.so
+  ldFlags =  -Wl,--enable-new-dtags,-rpath="\$$ORIGIN/../lib" "-L$$LEGATO_BUILD/framework/lib" -llegato -lpthread -lrt -lm
+
+build $builddir/component/2748631bb9b27b686463abde52326ad2/obj/ef51c70126c894eddacd6c5757772f4a.o: CompileC /home/cloury/myWorkspace/smsReceiver/smsClient/main.c || $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_common.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_messages.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_interface.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_service.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_messages.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_service.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_common.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_messages.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_interface.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_service.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_common.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_messages.h $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_interface.h $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_service.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/le_mdmDefs_common.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client/le_mdmDefs_interface.h 
+  cFlags = $cFlags -I$builddir/component/2748631bb9b27b686463abde52326ad2/src -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/4d7717b1974e5bf651633b0050c89f69 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69/client -I$builddir/api/4d7717b1974e5bf651633b0050c89f69/client -I$builddir/api/9fc9ddf69998b59a4633148303078d37 -I$builddir/api/9fc9ddf69998b59a4633148303078d37 -I$builddir/api/9fc9ddf69998b59a4633148303078d37/client -I$builddir/api/9fc9ddf69998b59a4633148303078d37/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -DLE_COMPONENT_NAME=smsClient -DLE_LOG_SESSION=smsClient_LogSession  -DLE_LOG_LEVEL_FILTER_PTR=smsClient_LogLevelFilterPtr 
+
+build $builddir/component/2748631bb9b27b686463abde52326ad2/obj/07f2a6ed884b45284d7d77a383eb8d3a.o: CompileC /home/cloury/myWorkspace/smsReceiver/smsClient/smsMO.c || $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_common.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_messages.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_interface.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_service.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_messages.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_service.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_common.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_messages.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_interface.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_service.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_common.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_messages.h $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_interface.h $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_service.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/le_mdmDefs_common.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client/le_mdmDefs_interface.h 
+  cFlags = $cFlags -I$builddir/component/2748631bb9b27b686463abde52326ad2/src -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/4d7717b1974e5bf651633b0050c89f69 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69/client -I$builddir/api/4d7717b1974e5bf651633b0050c89f69/client -I$builddir/api/9fc9ddf69998b59a4633148303078d37 -I$builddir/api/9fc9ddf69998b59a4633148303078d37 -I$builddir/api/9fc9ddf69998b59a4633148303078d37/client -I$builddir/api/9fc9ddf69998b59a4633148303078d37/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -DLE_COMPONENT_NAME=smsClient -DLE_LOG_SESSION=smsClient_LogSession  -DLE_LOG_LEVEL_FILTER_PTR=smsClient_LogLevelFilterPtr 
+
+build $builddir/component/2748631bb9b27b686463abde52326ad2/obj/002a8625c60b979eefc64590802e7027.o: CompileC /home/cloury/myWorkspace/smsReceiver/smsClient/smsMT.c || $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_common.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/le_sms_messages.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_interface.h $builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client/le_sms_service.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_messages.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_service.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_common.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/le_net_messages.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_interface.h $builddir/api/4d7717b1974e5bf651633b0050c89f69/client/le_net_service.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_common.h $builddir/api/9fc9ddf69998b59a4633148303078d37/le_gnss_messages.h $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_interface.h $builddir/api/9fc9ddf69998b59a4633148303078d37/client/le_gnss_service.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/le_dcs_common.h $builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client/le_dcs_interface.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/le_mdmDefs_common.h $builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client/le_mdmDefs_interface.h 
+  cFlags = $cFlags -I$builddir/component/2748631bb9b27b686463abde52326ad2/src -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/4d7717b1974e5bf651633b0050c89f69 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69/client -I$builddir/api/4d7717b1974e5bf651633b0050c89f69/client -I$builddir/api/9fc9ddf69998b59a4633148303078d37 -I$builddir/api/9fc9ddf69998b59a4633148303078d37 -I$builddir/api/9fc9ddf69998b59a4633148303078d37/client -I$builddir/api/9fc9ddf69998b59a4633148303078d37/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -DLE_COMPONENT_NAME=smsClient -DLE_LOG_SESSION=smsClient_LogSession  -DLE_LOG_LEVEL_FILTER_PTR=smsClient_LogLevelFilterPtr 
+
+build $builddir/component/2748631bb9b27b686463abde52326ad2/obj/_componentMain.c.o: CompileC $builddir/component/2748631bb9b27b686463abde52326ad2/src/_componentMain.c
+  cFlags = $cFlags -I$builddir/component/2748631bb9b27b686463abde52326ad2/src -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3 -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client -I$builddir/api/8c3e93a7366ceb3eb1056d80c28061c3/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/4d7717b1974e5bf651633b0050c89f69 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69 -I$builddir/api/4d7717b1974e5bf651633b0050c89f69/client -I$builddir/api/4d7717b1974e5bf651633b0050c89f69/client -I$builddir/api/9fc9ddf69998b59a4633148303078d37 -I$builddir/api/9fc9ddf69998b59a4633148303078d37 -I$builddir/api/9fc9ddf69998b59a4633148303078d37/client -I$builddir/api/9fc9ddf69998b59a4633148303078d37/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6 -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -I$builddir/api/3673eb199bd09b527dd9a48a6a1341e6/client -I$builddir/api/fd7d1cad4c1dfbe07f131bf0dcba4e0b/client -DLE_COMPONENT_NAME=smsClient -DLE_LOG_SESSION=smsClient_LogSession  -DLE_LOG_LEVEL_FILTER_PTR=smsClient_LogLevelFilterPtr 
+
+build $builddir/app/sms/obj/sms/_main.c.o: CompileC /home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx/app/sms/src/sms/_main.c
+  cFlags = $cFlags  -DLE_COMPONENT_NAME=sms_exe -DLE_LOG_SESSION=sms_exe_LogSession  -DLE_LOG_LEVEL_FILTER_PTR=sms_exe_LogLevelFilterPtr 
+
+build $builddir/app/sms/obj/sms/sms: LinkCExe $builddir/app/sms/obj/sms/_main.c.o | /home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx/component/2748631bb9b27b686463abde52326ad2/obj/libComponent_smsClient.so /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/build/wp77xx/framework/lib/liblegato.so /home/cloury/myWorkspace/leaf-data/myProfile0.6.0/mangOH-wp77xx-legato/build/$target/framework/lib/liblegato.so
+  ldFlags = -rdynamic -Wl,--enable-new-dtags,-rpath="\$$ORIGIN/../lib" -L "-L/home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx/component/2748631bb9b27b686463abde52326ad2/obj" -lComponent_smsClient "-L/home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx/component/2748631bb9b27b686463abde52326ad2/obj" -lComponent_smsClient "-L$$LEGATO_BUILD/framework/lib" -llegato -lpthread -lrt -ldl -lm $ldFlags
+
+build $builddir/app/sms/staging/read-only/lib/libComponent_smsClient.so : BundleFile /home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx/component/2748631bb9b27b686463abde52326ad2/obj/libComponent_smsClient.so
+  modeFlags = u+rw+x,g+r+x,o+x+r-w
+
+build $builddir/app/sms/staging/read-only/bin/sms : BundleFile $builddir/app/sms/obj/sms/sms
+  modeFlags = u+rw+x,g+r+x,o+x+r-w
+
+build $builddir/app/sms/staging/info.properties : MakeAppInfoProperties | $builddir/app/sms/staging/read-only/lib/libComponent_smsClient.so $builddir/app/sms/staging/read-only/bin/sms $builddir/app/sms/staging/root.cfg
+  name = sms
+  version = 
+  workingDir = $builddir/app/sms
+
+build sms.$target.update: PackApp $builddir/app/sms/staging/info.properties
+  name = sms
+  adefPath = /home/cloury/myWorkspace/smsReceiver/sms.adef
+  version = 
+  workingDir = $builddir/app/sms
+
+build /home/cloury/myWorkspace/smsReceiver/_build_sms/wp77xx/build.ninja: RegenNinjaScript | /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_dcs.api /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/le_net.api /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/modemServices/le_mdmDefs.api /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/modemServices/le_sms.api /home/cloury/.leaf/mangOH-wp77xx-legato_0.6.0/interfaces/positioning/le_gnss.api /home/cloury/myWorkspace/smsReceiver/smsClient/Component.cdef
+

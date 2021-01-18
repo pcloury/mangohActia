@@ -1,0 +1,6 @@
+mkapp
+-t
+wp77xx
+-C
+-Wno-error
+smsApp.adef
